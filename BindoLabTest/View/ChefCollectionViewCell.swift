@@ -9,6 +9,8 @@ import UIKit
 
 class ChefCollectionViewCell: UICollectionViewCell, UITableViewDelegate, UITableViewDataSource {
 
+    var cellChef: Chef?
+    
     @IBOutlet weak var chefImageView: UIImageView!
     @IBOutlet weak var chefSwitch: UISwitch!
     @IBOutlet weak var pizzaTableView: UITableView!
@@ -19,7 +21,7 @@ class ChefCollectionViewCell: UICollectionViewCell, UITableViewDelegate, UITable
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return cellChef?.pizzaList.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -28,7 +30,16 @@ class ChefCollectionViewCell: UICollectionViewCell, UITableViewDelegate, UITable
           fatalError("The dequeued cell is not an instance of PizzaTableViewCell.")
         }
         cell.rowNum = indexPath.row
+        cell.uiBind(pizza: cellChef?.pizzaList[indexPath.row] ?? Pizza())
         return cell
+    }
+    
+    func uiBind(chef: Chef){
+        cellChef = chef
+        chefNameLabel.text = "Pizza Chef \((chef.chefId)!)"
+        chefRemainingLabel.text = "Remaining pizza: \(chef.remainingPizza)"
+        chefRateLabel.text = "\(chef.rate) second per pizza"
+        pizzaTableView.reloadData()
     }
     
 }

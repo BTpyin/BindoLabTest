@@ -25,5 +25,9 @@ class PizzaTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func uiBind(pizza: Pizza){
+        pizzaNameLabel.text = "\(pizza.pizzaId ?? "")"
+    }
 
 }
